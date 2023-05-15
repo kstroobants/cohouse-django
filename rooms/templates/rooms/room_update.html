@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="py-5 bg-light">
+    <div class="container content-section create-room-form">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Update your room post</legend>
+                {{ form|crispy }}
+            </fieldset>
+
+            {% if room.has_only_default == False %}
+                <div id="existing-imgs">
+                    <label>Select to remove existing images</label>
+                    <div class="img-select">
+                        {% for room_img in room.roomimage_set.all %}
+                            <div class="image" id="{{room_img.id}}">
+                                <img src="{{ room_img.image.url }}" alt="Room image {{ room_img.id }}">
+                                <span onclick="deleteExistingImage('{{room_img.id}}', '{{room.roomimage_set.count}}')">&times;</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <br>
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label>Upload more images</label>
+                <input type="hidden" id="del_imgs" name="del_imgs" value="">
+                <input id="input_imgs" name="images" type="file" multiple class="form-control-file" accept="image/jpeg, image/png, image/jpg"> <br> 
+                <output class="img-select" id="output_imgs"></output>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
