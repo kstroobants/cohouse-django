@@ -40,7 +40,7 @@ class Room(models.Model):
     def has_only_default(self, delete=False):
         if self.roomimage_set.count()==1:
             room_img_first = self.roomimage_set.first()
-            if room_img_first.image.url == settings.MEDIA_URL + 'room_pics/default.jpg':
+            if room_img_first.image.url == settings.MEDIA_URL + 'room_pics/default-room.jpg':
                 if delete == True:
                     room_img_first.delete()
                 return True
@@ -54,7 +54,7 @@ class RoomImage(models.Model):
         return os.path.join("room_pics/room_%d" % instance.room.id, filename)
     
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    image = models.ImageField(default='room_pics/default.jpg', upload_to=get_upload_path)
+    image = models.ImageField(default='room_pics/default-room.jpg', upload_to=get_upload_path)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

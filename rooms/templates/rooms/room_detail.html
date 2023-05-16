@@ -2,97 +2,102 @@
 {% load static %}
 {% block content %}
 
-<div class="py-5 bg-light">
-    <div class="container">
+<div class="container">
+    {% if object.author == request.user %}
         <div class="bg-light clearfix">
             <a href="{% url 'room-delete' object.id %}" class="btn btn-outline-danger float-right">Delete</a>
             <a href="{% url 'room-update' object.id %}" class="btn btn-outline-primary float-right mr-1">Edit</a>
         </div>
+    {% endif%}
 
-        <div class="scroll-container">
-            {% for object_img in object.roomimage_set.all %}
-                <img src="{{ object_img.image.url }}" alt="Room image {{ object_img.id }}">
-            {% endfor %}
-        </div>
-
-        <div class="detail-date-container">
-            <div>
-                <p> € {{ object.price }} / month</p>
-            </div>
-            <div>
-                {% if object.available_from_is_past_due %}
-                    <p class="text-muted detail-date-column">Available</p>
-                {% else %}
-                    <p class="text-muted detail-date-column">Available on {{ object.available_from|date:"d/m/Y"}}</p>
-                {% endif %}
-            </div>
-            <div>
-                <p class="text-muted detail-date-column">Posted {{ object.date_posted|timesince }} ago</p>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="detail-container">
-            <div class="detail-column">
-                <h4 class="text-muted">Details</h4>
-                <ul class="list-group">
-                    <li class="list-group-item">Size <span class="badge badge-pill badge-secondary ml-1">{{ object.size }} m<sup>2</sup></span></li>
-
-                    {% if object.house_type == "F" %}
-                        <li class="list-group-item">Type <span class="badge badge-pill badge-secondary ml-1">Flat</span></li>
-                    {% else %}
-                        <li class="list-group-item">Type <span class="badge badge-pill badge-secondary ml-1">House</span></li>
-                    {% endif %}
-
-                    <li class="list-group-item">Floor <span class="badge badge-pill badge-secondary ml-1">{{ object.floor }}</span></li>
-
-                    {% if object.garden == 0 %}
-                        <li class="list-group-item">Garden <span class="badge badge-pill badge-secondary ml-1">No</span></li>
-                    {% else %}
-                        <li class="list-group-item">Garden <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
-                    {% endif %}
-
-                    {% if object.balcony == 0 %}
-                        <li class="list-group-item">Balcony <span class="badge badge-pill badge-secondary ml-1">No</span></li>
-                    {% else %}
-                        <li class="list-group-item">Balcony <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
-                    {% endif %}
-
-                    {% if object.parking == 0 %}
-                        <li class="list-group-item">Free parking <span class="badge badge-pill badge-secondary ml-1">No</span></li>
-                    {% else %}
-                        <li class="list-group-item">Free parking <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
-                    {% endif %}
-
-                    {% if object.furnished == 0 %}
-                        <li class="list-group-item">Furnished <span class="badge badge-pill badge-secondary ml-1">No</span></li>
-                    {% else %}
-                        <li class="list-group-item">Furnished <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
-                    {% endif %}
-
-                    <li class="list-group-item">Bathrooms <span class="badge badge-pill badge-secondary ml-1">{{ object.bathroom }}</span></li>
-                    <li class="list-group-item">Residents <span class="badge badge-pill badge-secondary ml-1">{{ object.residents }}</span></li>
-                </ul>
-            </div>
-
-            <div class="detail-column">
-                <h4 class="text-muted">Description</h4>
-                {{ object.description|linebreaks }}
-            </div>
-        </div>
-
-        <hr>
-        <h4 class="text-muted">Contact</h4>        
-        <i class="fa-solid fa-user" style="width:30px""></i>{{ object.author }}<br>
-        <i class="fa fa-phone" style="width:30px"></i><a href='tel:+123456789'>+123456789</a><br>
-        <i class="fa fa-envelope" style="width:30px"> </i><a href="mailto:{{ object.author.email }}">{{ object.author.email }}</a><br>
-
-        
+    <div class="scroll-container">
+        {% for object_img in object.roomimage_set.all %}
+            <img src="{{ object_img.image.url }}" alt="Room image {{ object_img.id }}">
+        {% endfor %}
     </div>
+
+    <div class="detail-date-container">
+        <div>
+            <p> € {{ object.price }} / month</p>
+        </div>
+        <div>
+            {% if object.available_from_is_past_due %}
+                <p class="text-muted detail-date-column">Available</p>
+            {% else %}
+                <p class="text-muted detail-date-column">Available on {{ object.available_from|date:"d/m/Y"}}</p>
+            {% endif %}
+        </div>
+        <div>
+            <p class="text-muted detail-date-column">Posted {{ object.date_posted|timesince }} ago</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="detail-container">
+        <div class="detail-column">
+            <h4 class="text-muted">Details</h4>
+            <ul class="list-group">
+                <li class="list-group-item">Size <span class="badge badge-pill badge-secondary ml-1">{{ object.size }} m<sup>2</sup></span></li>
+
+                {% if object.house_type == "F" %}
+                    <li class="list-group-item">Type <span class="badge badge-pill badge-secondary ml-1">Flat</span></li>
+                {% else %}
+                    <li class="list-group-item">Type <span class="badge badge-pill badge-secondary ml-1">House</span></li>
+                {% endif %}
+
+                <li class="list-group-item">Floor <span class="badge badge-pill badge-secondary ml-1">{{ object.floor }}</span></li>
+
+                {% if object.garden == 0 %}
+                    <li class="list-group-item">Garden <span class="badge badge-pill badge-secondary ml-1">No</span></li>
+                {% else %}
+                    <li class="list-group-item">Garden <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
+                {% endif %}
+
+                {% if object.balcony == 0 %}
+                    <li class="list-group-item">Balcony <span class="badge badge-pill badge-secondary ml-1">No</span></li>
+                {% else %}
+                    <li class="list-group-item">Balcony <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
+                {% endif %}
+
+                {% if object.parking == 0 %}
+                    <li class="list-group-item">Free parking <span class="badge badge-pill badge-secondary ml-1">No</span></li>
+                {% else %}
+                    <li class="list-group-item">Free parking <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
+                {% endif %}
+
+                {% if object.furnished == 0 %}
+                    <li class="list-group-item">Furnished <span class="badge badge-pill badge-secondary ml-1">No</span></li>
+                {% else %}
+                    <li class="list-group-item">Furnished <span class="badge badge-pill badge-secondary ml-1">Yes</span></li>
+                {% endif %}
+
+                <li class="list-group-item">Bathrooms <span class="badge badge-pill badge-secondary ml-1">{{ object.bathroom }}</span></li>
+                <li class="list-group-item">Residents <span class="badge badge-pill badge-secondary ml-1">{{ object.residents }}</span></li>
+            </ul>
+        </div>
+
+        <div class="detail-column">
+            <h4 class="text-muted">Description</h4>
+            {{ object.description|linebreaks }}
+        </div>
+    </div>
+
+    <hr>
+    <h4 class="text-muted">Contact</h4>        
+    <i class="fa-solid fa-user" style="width:30px""></i>
+        <a href="{% url 'user-profile' object.author.id %}">{{ object.author.username }}</a><br>
+    <i class="fa fa-phone" style="width:30px"></i>
+        <a href="tel:{{ object.author.profile.phone_number }}">{{ object.author.profile.phone_number }}</a><br>
+    <i class="fa fa-envelope" style="width:30px"> </i>
+        <a href="mailto:{{ object.author.email }}?
+subject=[Cohouse] Application for your room&
+body=Hi {{ object.author.first_name }},%0D%0A%0D%0A
+I am sending your this email because I am interested in the room you posted here: http%3A%2F%2F{{ request.get_host }}{{ request.path }} %0D%0A
+I would like to schedule a visit. When are you available?%0D%0A
+You can find more information about me on: http%3A%2F%2F{{ request.get_host }}{% url 'user-profile' user.id %} %0D%0A%0D%0A
+Kind regards,%0D%0A
+{{ user.first_name }}">{{ object.author.email }}</a><br>
 </div>
-
-
-  
 
 {% endblock content %}

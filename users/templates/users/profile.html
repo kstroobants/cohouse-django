@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container content-section">
+    <div class="row">
+        <div class="col-md-5 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-2" width="150px" src="{{ request_user.profile.image.url }}">
+                <span class="font-weight-bold">{{ request_user.username }}</span>
+                <span class="text-black-50">{{ request_user.first_name }} {{ request_user.last_name }}</span>
+                {% if request_user == user %}
+                    <span class="text-black-50">{{ request_user.email }}</span>
+                    <span class="text-black-50">{{ request_user.profile.phone_number }}</span>
+                    <br>
+                    <div class="btn-group">
+                        <a href="{% url 'update-profile' %}" role="button" class="btn btn-outline-primary">Edit profile</a>
+                        <a href="{% url 'change-password' %}" role="button" class="btn btn-outline-primary">Change password</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col">
+            <div class="p-3 py-5">
+                <legend class="border-bottom mb-4">Profile info</legend>
+                <p class="text-secondary">{{ request_user.profile.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

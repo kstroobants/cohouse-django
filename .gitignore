@@ -8,6 +8,7 @@ todo.txt
 
 # Ignore db images
 static/images/room_pics/
+static/images/profile_pics/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -4,7 +4,7 @@ body {
  
 
 /* Navigation bar */
-.bg-steel {
+.bg-color {
     background-color: #F26419;
 }
 
@@ -41,6 +41,10 @@ footer {
 
 footer p {
     margin-bottom: .25rem;
+}
+
+.footer-link, .footer-link:hover {
+    color: #F26419;
 }
 
 
@@ -196,3 +200,26 @@ div.scroll-container img {
         float:left;
     }
 }
+
+
+/* Login screen */
+.signin-content-section {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    width: 450px;
+}
+
+.signin-content-section .fieldWrapper {
+    width: 100%;
+    max-width: 300px;
+    padding: 15px;
+    margin: 0 auto;
+}  
+
+.signin-content-section a, button {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+} 
+

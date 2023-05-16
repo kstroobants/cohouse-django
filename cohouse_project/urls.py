@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', rooms_views.home, name='home'),
     path('rooms/', include('rooms.urls')),
+    path('user/', include('users.urls')),
 ]
 
 if settings.DEBUG:

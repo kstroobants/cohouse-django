@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Room, RoomImage
 from .forms import CreateRoomForm, UpdateRoomForm
 
@@ -9,15 +11,16 @@ def home(request):
     return render(request, 'home.html')
 
 
-class RoomListView(ListView):
+class RoomListView(LoginRequiredMixin, ListView):
     model = Room
     ordering = ['-date_posted']
 
 
-class RoomDetailView(DetailView):
+class RoomDetailView(LoginRequiredMixin, DetailView):
     model = Room
 
 
+@login_required
 def create_room(request):
     form = CreateRoomForm()
     images = []
@@ -37,6 +40,7 @@ def create_room(request):
     return render(request, 'rooms/room_form.html', context)
 
 
+@login_required
 def update_room(request, pk=None):
     room = get_object_or_404(Room, id=pk, author=request.user)
     if request.method == 'POST':
@@ -68,10 +72,16 @@ def update_room(request, pk=None):
     return render(request, 'rooms/room_update.html', context)
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Room
-    success_url = 'room-list'
 
     def get_success_url(self):
         return reverse_lazy( 'room-list')
+    
+
+    def test_func(self):
+        room = self.get_object()
+        if self.request.user == room.author:
+            return True
+        return False
 
