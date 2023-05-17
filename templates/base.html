@@ -11,7 +11,7 @@
 
     <title>Cohousing</title>
 </head>
-<body>
+<body class="bg-cream">
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-color fixed-top">
             <div class="container">
@@ -22,20 +22,33 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-                        <a class="nav-item nav-link" href="#">About</a>
+                        <li class="nav-item ml-1"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <!-- <li class="nav-item ml-1"><a class="nav-link" href="{% url 'about' %}"">About</a></li> -->
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle ml-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              About
+                            </a>
+                            <div class="dropdown-menu bg-color" aria-labelledby="navbarDropdown">
+                                <a class="nav-link mb-1" href="{% url 'about' %}">About</a>
+                                <a class="nav-link mb-1" href="{% url 'values' %}">Values</a>
+                                <a class="nav-link mb-1" href="{% url 'mission' %}">Mission</a>
+                                <a class="nav-link" href="{% url 'story' %}">Story</a>
+                            </div>
+                        </li>
+
                     </div>
 
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
-                            <a class="nav-item nav-link" href="{% url 'room-list' %}">Search room</a>
-                            <a class="nav-item nav-link" href="{% url 'room-create' %}">New room</a>
-                            <a class="nav-item nav-link" href="#">My rooms</a>
-                            <a class="nav-item nav-link" href="{% url 'user-profile' user.id %}">Profile</a>
-                            <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-list' %}">Search room</a></li>
+                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-create' %}">New room</a></li>
+                            <li class="nav-item ml-1"><a class="nav-link" href="#">My rooms</a></li>
+                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'user-profile' user.id %}">Profile</a></li>
+                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                         {% else %}
-                            <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                            <a class="nav-item nav-link" href="{% url 'create-profile' %}">Register</a>
+                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'create-profile' %}">Register</a></li>
                         {% endif %}
                     </div>
                 </div>
@@ -92,5 +105,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     
     <script src="{% static 'js/img_show.js' %}"></script>
+
+    <script>
+        // Add active to nav bar
+        document.querySelectorAll(".nav-link").forEach((link) => {
+
+            if (link.href === window.location.href) {
+                link.classList.add("active");
+                link.setAttribute("style", "color: #F26419;");
+
+                if (link.parentNode.classList.contains("dropdown-menu") == true) {
+                    const dropdown_element = document.getElementById('navbarDropdown');
+                    dropdown_element.classList.add("active");
+                    dropdown_element.setAttribute("style", "color: #F26419;");
+                }
+            }
+        });
+
+    </script>
 </body>
 </html>

@@ -2,13 +2,15 @@ const input = document.querySelector("#input_imgs")
 const output = document.querySelector("#output_imgs")
 let imagesArray = []
 
-input.addEventListener("change", () => {
-    const files = input.files
-    for (let i = 0; i < files.length; i++) {
-        imagesArray.push(files[i])
-    }
-    displayImages()
-})
+if (input != null){
+    input.addEventListener("change", () => {
+        const files = input.files
+        for (let i = 0; i < files.length; i++) {
+            imagesArray.push(files[i])
+        }
+        displayImages()
+    })
+}
 
 function displayImages() {
     let images = ""

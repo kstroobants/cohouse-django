@@ -1,6 +1,10 @@
 body {
     margin-top: 2.5rem;
 }
+
+.bg-cream {
+    background-color: #F4EBD0;
+}
  
 
 /* Navigation bar */
@@ -9,11 +13,11 @@ body {
 }
 
 .site-header .navbar-nav .nav-link {
-    color: #ebeef0;
+    color: #fff;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
+    color: #fff;
 }
 
 .site-header .navbar-nav .nav-link.active {
@@ -30,6 +34,13 @@ body {
     height: 2.2rem;
     width: 2.2rem;
     filter: invert(100%);
+}
+
+.navbar .active,
+.navbar .active:focus,
+.navbar .nav-link:hover {
+    background-color: #343a40;
+    border-radius: 16px;
 }
 
 
@@ -223,3 +234,75 @@ div.scroll-container img {
     margin: 0 auto;
 } 
 
+
+/* Homepage */
+.featurette-divider {
+    margin: 5rem 0;
+}
+
+.featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.05rem;
+}
+  
+@media (min-width: 40em) {
+    /* Bump up size of carousel content */
+    .carousel-caption p {
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+    
+    .featurette-heading {
+        font-size: 50px;
+        }
+}
+  
+@media (min-width: 62em) {
+    .featurette-heading {
+        margin-top: 7rem;
+    }
+}
+
+
+/* About pages */
+.bg-about-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.5;display: flex;
+    justify-content: center;
+    align-items:center;
+    height: 400px;
+}
+
+.about-text {
+    color: #fff;
+    text-align: center;
+    background-color: #F26419;
+    border-radius: 16px
+}
+
+#bg-about {
+    background-image: url('../images/home_page/about.jpg');
+}
+
+#bg-mission {
+    background-image: url('../images/home_page/mission.jpg');
+}
+
+#bg-values {
+    background-image: url('../images/home_page/values.jpg');
+}
+
+#bg-story {
+    background-image: url('../images/home_page/story.jpg');
+}
+
+
+
+
+
+
+  

@@ -1,6 +1,54 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
-<h1>Hello, this is the homepage.</h1>
+<div class="p-3 py-5">
+    <h1 class="display-4" style="text-align:center;">Discover a Thriving Community and a Home That Fits You</h1>
+    <p class="lead" style="text-align:center;">Welcome to a world where your neighbors become friends, where social interactions are meaningful and fulfilling, and where you can create a life that truly resonates with your values. Embrace the cohousing revolution, and let our website guide you to the perfect community that feels like home.</p>
+    <p style="text-align:center;">Begin your journey today, and discover the joy of cohousing through our user-friendly and empowering website.</p>
+    {% if user.is_authenticated %}
+        <p class="lead" style="text-align:center;"><a href="{% url 'room-list' %}" class="btn btn-lg btn-secondary">Search rooms</a></p>
+    {% else %}
+        <p class="lead" style="text-align:center;"><a href="{% url 'login' %}" class="btn btn-lg btn-secondary">Learn more</a></p>
+    {% endif %}
+
+
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">Unparalleled Convenience. <span class="text-muted">It'll blow your mind.</span></h2>
+            <p class="lead">With our comprehensive website, finding your ideal cohousing home has never been easier. We have curated an extensive selection of cohousing communities from across the globe, gathering them all in one convenient place. No more hours of searching through scattered listings or relying on word-of-mouth. We have streamlined the process, saving you time and effort.</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" src="{% static 'images/home_page/house.png' %}" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading">Tailored Cohousing Features. <span class="text-muted">See for yourself.</span></h2>
+            <p class="lead">We understand that each individual has unique preferences and requirements. Our website allows you to filter your search based on specific cohousing features that matter to you. Whether you seek a community focused on sustainability, intergenerational living, or specific amenities like communal gardens or shared workshops, our website ensures you can narrow down your options and find the perfect fit.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+            <img class="featurette-image img-fluid mx-auto" src="{% static 'images/home_page/puzzle.png' %}" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">In-Depth Community Profiles. <span class="text-muted">Checkmate.</span></h2>
+            <p class="lead">Making an informed decision about your future home is crucial, and our website provides you with detailed community profiles. Explore the missions, values, and cultures of different cohousing communities. Gain insights into their decision-making processes, common activities, and shared spaces. With our comprehensive profiles, you can envision yourself thriving in a community that aligns with your ideals.</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" src="{% static 'images/home_page/friends.png' %}" alt="Generic placeholder image">
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

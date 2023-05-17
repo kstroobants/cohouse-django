@@ -9,6 +9,14 @@ from .forms import CreateRoomForm, UpdateRoomForm
 
 def home(request):
     return render(request, 'home.html')
+def about(request):
+    return render(request, 'about.html')
+def values(request):
+    return render(request, 'values.html')
+def mission(request):
+    return render(request, 'mission.html')
+def story(request):
+    return render(request, 'story.html')
 
 
 class RoomListView(LoginRequiredMixin, ListView):

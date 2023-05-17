@@ -23,6 +23,10 @@ from rooms import views as rooms_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', rooms_views.home, name='home'),
+    path('about/', rooms_views.about, name='about'),
+    path('about/values/', rooms_views.values, name='values'),
+    path('about/mission/', rooms_views.mission, name='mission'),
+    path('about/story/', rooms_views.story, name='story'),
     path('rooms/', include('rooms.urls')),
     path('user/', include('users.urls')),
 ]
