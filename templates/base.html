@@ -23,7 +23,6 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         <li class="nav-item ml-1"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                        <!-- <li class="nav-item ml-1"><a class="nav-link" href="{% url 'about' %}"">About</a></li> -->
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle ml-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,7 +42,7 @@
                         {% if user.is_authenticated %}
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-list' %}">Search room</a></li>
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-create' %}">New room</a></li>
-                            <li class="nav-item ml-1"><a class="nav-link" href="#">My rooms</a></li>
+                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-user-list' %}">My rooms</a></li>
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'user-profile' user.id %}">Profile</a></li>
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                         {% else %}
@@ -110,7 +109,7 @@
         // Add active to nav bar
         document.querySelectorAll(".nav-link").forEach((link) => {
 
-            if (link.href === window.location.href) {
+            if (link.href === window.location.href.split("?")[0]) {
                 link.classList.add("active");
                 link.setAttribute("style", "color: #F26419;");
 

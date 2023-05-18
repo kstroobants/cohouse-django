@@ -1,12 +1,73 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container">
+    <form class="box-shadow filter-content" method="get">
+        <div class="form-row" style="text-align: center;">
+            <div class="form-group ml-2 mb-0 mt-2" style="width:100px;">
+                {{ filter.form.price|as_crispy_field }}
+            </div>
+
+            <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
+                {{ filter.form.size|as_crispy_field }}
+            </div>
+
+            <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
+                {{ filter.form.floor|as_crispy_field }}
+            </div>
+
+            <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
+                {{ filter.form.bathroom|as_crispy_field }}
+            </div>
+
+            <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
+                {{ filter.form.residents|as_crispy_field }}
+            </div>
+
+            <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
+                {{ filter.form.garden|as_crispy_field }}
+                {{ filter.form.balcony|as_crispy_field }}
+            </div>
+
+            <div class="form-group ml-3 mb-0 mt-2" style="width:200px">
+                <div class="form-row">
+                    <div class="form-group mb-0" style="width:200px">
+                        {{ filter.form.house_type|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group pr-1 mb-0" style="width:100px">
+                        {{ filter.form.parking|as_crispy_field }}
+                    </div>
+                    <div class="form-group pl-1 mb-0" style="width:100px">
+                        {{ filter.form.furnished|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group ml-2 mb-0 mt-2" style="width:150px">
+                {{ filter.form.available_from|as_crispy_field }}
+            </div>
+
+            <div class="col mt-2 mr-2">
+                <button class="btn btn-outline-light mb-1" style="width:100px;" type="submit">Search</button>
+                {% if my_rooms == True %}
+                    <a href="{% url 'room-user-list' %}" class="btn btn-outline-light mb-1" style="width:100px">Reset</a>
+                {% else%}
+                    <a href="{% url 'room-list' %}" class="btn btn-outline-light mb-1" style="width:100px">Reset</a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+
+    <hr>
+
     <div class="row">
-        {% for object in object_list %}
+        {% for object in filter.qs %}
         <div class="col-md-4">
-            <div class="card mb-4 box-shadow">
+            <div class="card mb-4 box-shadow card-border-radius-bottom">
                 <div id="carouselExampleIndicators_{{ object.id }}" class="carousel slide" data-ride="carousel" data-interval="false">
                     {% if object.roomimage_set.count > 1 %}
                         <ol class="carousel-indicators">
@@ -103,7 +164,7 @@
                     </div>
                 </div>
 
-                <div class="card-footer">
+                <div class="card-footer" style="border-bottom-left-radius: 16px;border-bottom-right-radius: 16px;">
                     <div class="btn-group">
                         <a href="{% url 'room-detail' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
                         {% if object.author == request.user %}
@@ -116,6 +177,30 @@
             
         </div>
         {% endfor %}    
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 paginate-bar">
+            {% if is_paginated %}
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page=1">First</a>
+                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num == page_obj.number %}
+                        <a class="btn btn-sm btn-secondary mr-1 ml-1 mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
 </div>
 

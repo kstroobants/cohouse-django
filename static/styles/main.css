@@ -60,11 +60,25 @@ footer p {
 
 
 /* Show rooms in the search room page  */
+.filter-content {
+    border-radius: 8px;background: #343a40;color: #fff;border: 1px solid #dddddd;
+}
+
+.paginate-bar {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    display: flex;  
+    justify-content: center;
+}
+
 .box-shadow {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
-.card{ 
+.card-border-radius-bottom { 
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
 }
@@ -300,9 +314,3 @@ div.scroll-container img {
     background-image: url('../images/home_page/story.jpg');
 }
 
-
-
-
-
-
-  
