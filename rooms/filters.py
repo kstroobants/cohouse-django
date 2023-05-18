@@ -5,7 +5,7 @@ from django_filters.widgets import RangeWidget
 from django import forms
 
 
-class ProductFilter(django_filters.FilterSet):
+class RoomFilter(django_filters.FilterSet):
     price = RangeFilter()
     size = RangeFilter()
     floor = RangeFilter()

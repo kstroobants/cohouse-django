@@ -32,6 +32,8 @@ class Room(models.Model):
     description = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     available_from = models.DateTimeField(default=timezone.now)
+    favourite = models.ManyToManyField(User, blank=True, related_name="favourite")
+
 
     @property
     def available_from_is_past_due(self):

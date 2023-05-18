@@ -42,8 +42,18 @@
                         {% if user.is_authenticated %}
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-list' %}">Search room</a></li>
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-create' %}">New room</a></li>
-                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'room-user-list' %}">My rooms</a></li>
-                            <li class="nav-item ml-1"><a class="nav-link" href="{% url 'user-profile' user.id %}">Profile</a></li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle ml-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Profile
+                                </a>
+                                <div class="dropdown-menu bg-color" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link mb-1" href="{% url 'user-profile' user.id %}">Profile</a>
+                                    <a class="nav-link mb-1" href="{% url 'room-user-list' %}">My rooms</a>
+                                    <a class="nav-link" href="{% url 'room-favourite-list' %}">Favourites</a>
+                                </div>
+                            </li>
+
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                         {% else %}
                             <li class="nav-item ml-1"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
@@ -114,7 +124,7 @@
                 link.setAttribute("style", "color: #F26419;");
 
                 if (link.parentNode.classList.contains("dropdown-menu") == true) {
-                    const dropdown_element = document.getElementById('navbarDropdown');
+                    const dropdown_element = link.parentNode.parentNode.querySelector('#navbarDropdown');
                     dropdown_element.classList.add("active");
                     dropdown_element.setAttribute("style", "color: #F26419;");
                 }

@@ -6,7 +6,7 @@ class CreateRoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = "__all__"
-        exclude = ["date_posted"]
+        exclude = ["date_posted", "author", "favourite"]
         widgets = {
             'available_from': forms.widgets.DateInput(attrs={'type': 'date'})
         }
@@ -16,7 +16,7 @@ class UpdateRoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = "__all__"
-        exclude = ["date_posted", "author"]
+        exclude = ["date_posted", "author", "favourite"]
         widgets = {
             'available_from': forms.widgets.DateInput(attrs={'type': 'date'})
         }

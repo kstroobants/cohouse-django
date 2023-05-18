@@ -7,55 +7,57 @@
     <form class="box-shadow filter-content" method="get">
         <div class="form-row" style="text-align: center;">
             <div class="form-group ml-2 mb-0 mt-2" style="width:100px;">
-                {{ filter.form.price|as_crispy_field }}
+                {{ form.price|as_crispy_field }}
             </div>
 
             <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
-                {{ filter.form.size|as_crispy_field }}
+                {{ form.size|as_crispy_field }}
             </div>
 
             <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
-                {{ filter.form.floor|as_crispy_field }}
+                {{ form.floor|as_crispy_field }}
             </div>
 
             <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
-                {{ filter.form.bathroom|as_crispy_field }}
+                {{ form.bathroom|as_crispy_field }}
             </div>
 
             <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
-                {{ filter.form.residents|as_crispy_field }}
+                {{ form.residents|as_crispy_field }}
             </div>
 
             <div class="form-group ml-2 mb-0 mt-2" style="width:100px">
-                {{ filter.form.garden|as_crispy_field }}
-                {{ filter.form.balcony|as_crispy_field }}
+                {{ form.garden|as_crispy_field }}
+                {{ form.balcony|as_crispy_field }}
             </div>
 
             <div class="form-group ml-3 mb-0 mt-2" style="width:200px">
                 <div class="form-row">
                     <div class="form-group mb-0" style="width:200px">
-                        {{ filter.form.house_type|as_crispy_field }}
+                        {{ form.house_type|as_crispy_field }}
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group pr-1 mb-0" style="width:100px">
-                        {{ filter.form.parking|as_crispy_field }}
+                        {{ form.parking|as_crispy_field }}
                     </div>
                     <div class="form-group pl-1 mb-0" style="width:100px">
-                        {{ filter.form.furnished|as_crispy_field }}
+                        {{ form.furnished|as_crispy_field }}
                     </div>
                 </div>
             </div>
 
             <div class="form-group ml-2 mb-0 mt-2" style="width:150px">
-                {{ filter.form.available_from|as_crispy_field }}
+                {{ form.available_from|as_crispy_field }}
             </div>
 
             <div class="col mt-2 mr-2">
                 <button class="btn btn-outline-light mb-1" style="width:100px;" type="submit">Search</button>
-                {% if my_rooms == True %}
+                {% if my_rooms == 'all' %}
                     <a href="{% url 'room-user-list' %}" class="btn btn-outline-light mb-1" style="width:100px">Reset</a>
-                {% else%}
+                {% elif my_rooms == 'my' %}
+                    <a href="{% url 'room-user-list' %}" class="btn btn-outline-light mb-1" style="width:100px">Reset</a>
+                {% else %}
                     <a href="{% url 'room-list' %}" class="btn btn-outline-light mb-1" style="width:100px">Reset</a>
                 {% endif %}
             </div>
@@ -65,7 +67,7 @@
     <hr>
 
     <div class="row">
-        {% for object in filter.qs %}
+        {% for object in object_list %}
         <div class="col-md-4">
             <div class="card mb-4 box-shadow card-border-radius-bottom">
                 <div id="carouselExampleIndicators_{{ object.id }}" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -165,13 +167,38 @@
                 </div>
 
                 <div class="card-footer" style="border-bottom-left-radius: 16px;border-bottom-right-radius: 16px;">
-                    <div class="btn-group">
-                        <a href="{% url 'room-detail' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                    <div class="row">
                         {% if object.author == request.user %}
-                            <a href="{% url 'room-update' object.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <div class="col">
+                                <div class="btn-group">
+                                    <a href="{% url 'room-detail' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                                    <a href="{% url 'room-update' object.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% if request.user in object.favourite.all %}
+                                    <div class="col">
+                                        <a href="{% url 'room-detail' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                                        <button class="btn btn-sm btn-link" name="favourite" value="unfavourite,{{ object.id }},{{ request.get_full_path }}" style="width:40px">
+                                            <i class="fa-solid fa-heart fa-xl" style="color: #c70000;"></i>
+                                        </button>
+                                    </div>
+                                {% else %}
+                                    <div class="col">
+                                        <a href="{% url 'room-detail' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                                        <button class="btn btn-sm btn-link" name="favourite" value="favourite,{{ object.id }},{{ request.get_full_path }}" style="width:40px">
+                                            <i class="fa-regular fa-heart fa-xl" style="color: #343a40;"></i>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </form>
                         {% endif %}
+                        <div class="col">
+                            <small class="text-muted" style="float:right;">{{ object.date_posted|timesince }} ago</small>
+                        </div>
                     </div>
-                    <small class="ml-1 text-muted" style="float:right;">{{ object.date_posted|timesince }} ago</small>
                 </div>
             </div>
             
@@ -181,23 +208,45 @@
 
     <div class="row">
         <div class="col-md-4 paginate-bar">
-            {% if is_paginated %}
-                {% if page_obj.has_previous %}
-                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page=1">First</a>
-                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                {% endif %}
-
-                {% for num in page_obj.paginator.page_range %}
-                    {% if num == page_obj.number %}
-                        <a class="btn btn-sm btn-secondary mr-1 ml-1 mb-4" href="?page={{ num }}">{{ num }}</a>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% if request.path == request.get_full_path%}
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page=1">First</a>
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
                     {% endif %}
-                {% endfor %}
 
-                {% if page_obj.has_next %}
-                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if num == page_obj.number %}
+                            <a class="btn btn-sm btn-secondary mr-1 ml-1 mb-4" href="?page={{ num }}">{{ num }}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="{{request.get_full_path}}&page=1">First</a>
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="{{request.get_full_path}}&page={{ page_obj.previous_page_number }}">Previous</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if num == page_obj.number %}
+                            <a class="btn btn-sm btn-secondary mr-1 ml-1 mb-4" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="{{request.get_full_path}}&page={{ page_obj.next_page_number }}">Next</a>
+                        <a class="btn btn-sm btn-outline-secondary mr-1 ml-1 mb-4" href="{{request.get_full_path}}&page={{ page_obj.paginator.num_pages }}">Last</a>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>

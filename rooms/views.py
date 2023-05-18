@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Room, RoomImage
 from .forms import CreateRoomForm, UpdateRoomForm
-from .filters import ProductFilter
+from .filters import RoomFilter
 
 
 def home(request):
@@ -23,25 +23,55 @@ def story(request):
 class RoomListView(LoginRequiredMixin, ListView):
     model = Room
     ordering = ['-date_posted']
-    paginate_by = 9
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter'] = ProductFilter(self.request.GET, queryset=context['object_list'])
-        context['my_rooms'] = False
-        print(context)
-        print(context['filter'].qs)
+        context['form'] = self.form
+        context['view_class'] = 'all'
         return context
+    
+    def get_queryset(self):
+        queryset_temp = super().get_queryset()
+        roomfilter = RoomFilter(self.request.GET, queryset=queryset_temp)
+        self.form = roomfilter.form
+        return roomfilter.qs
+    
+    def post(self, request, *args, **kwargs):
+        status = request.POST.get("favourite")
+        status_like, room_id, redirect_url = status.split(",")
+        room_obj = get_object_or_404(Room, id=room_id)
+
+        if status_like == "favourite":
+            room_obj.favourite.add(request.user)
+        elif status_like == "unfavourite":
+            room_obj.favourite.remove(request.user)
+
+        return redirect(redirect_url)
         
 
 class RoomUserListView(RoomListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['my_rooms'] = True
+        context['view_class'] = 'my'
         return context
 
     def get_queryset(self):
         return super().get_queryset().filter(author=self.request.user)
+    
+
+class RoomUserFavouriteListView(RoomListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_class'] = 'favourite'
+        return context
+
+    def get_queryset(self):
+        return super().get_queryset().filter(favourite=self.request.user)
+    
+    def post(self, request, *args, **kwargs):
+        super().post(request, *args, **kwargs)
+        return redirect("room-favourite-list")
     
 
 class RoomDetailView(LoginRequiredMixin, DetailView):
@@ -57,7 +87,9 @@ def create_room(request):
         form = CreateRoomForm(request.POST)
         images = request.FILES.getlist('images')
         if form.is_valid():
-            room = form.save()
+            room = form.save(commit=False)
+            room.author = request.user
+            room.save()
             if len(images) == 0:
                 RoomImage.objects.create(room=room)
             else:
