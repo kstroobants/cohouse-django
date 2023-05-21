@@ -3,11 +3,8 @@ staticfiles-cdn/
 .DS_Store
 bin/
 
-# Ignore text file
-todo.txt
-
 # Ignore db images
-static/images/room_pics/
+static/images/room_pics/room_*
 static/images/profile_pics/
 
 # Byte-compiled / optimized / DLL files
