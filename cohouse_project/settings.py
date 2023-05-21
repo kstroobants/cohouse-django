@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     "phonenumber_field",
     'django_filters',
+    'django_countries',
     "django.contrib.gis",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -148,6 +149,4 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
-
-COUNTRIES_FLAG_URL = 'images/flags/{code}_16.png'
 
