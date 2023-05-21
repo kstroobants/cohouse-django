@@ -6,12 +6,14 @@ import os
 from PIL import Image
 from datetime import date
 from django.conf import settings
+from django.contrib.gis.db.models import PointField
+from django_countries.fields import CountryField
 
 class Room(models.Model):
     class House_type(models.TextChoices):
         FLAT = "F", _("Flat")
         HOUSE = "H", _("House")
-        
+
 
     class YesNo(models.IntegerChoices):
         NO = 0, _("No")
@@ -38,7 +40,7 @@ class Room(models.Model):
     @property
     def available_from_is_past_due(self):
         return date.today() >= self.available_from.date()
-    
+
     def has_only_default(self, delete=False):
         if self.roomimage_set.count()==1:
             room_img_first = self.roomimage_set.first()
@@ -51,10 +53,10 @@ class Room(models.Model):
 
 
 class RoomImage(models.Model):
-    
+
     def get_upload_path(instance, filename):
         return os.path.join("room_pics/room_%d" % instance.room.id, filename)
-    
+
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     image = models.ImageField(default='room_pics/default-room.jpg', upload_to=get_upload_path)
 
@@ -64,3 +66,12 @@ class RoomImage(models.Model):
         img.thumbnail([600, 400], Image.ANTIALIAS) #[width, height]
         img.save(self.image.path)
 
+
+class RoomAddress(models.Model):
+
+    room = models.OneToOneField(Room, on_delete=models.CASCADE)
+    address_line = models.CharField(max_length=1024)
+    zip_code = models.CharField(max_length=1024)
+    city = models.CharField(max_length=1024)
+    country = CountryField()
+    point = PointField(null=True)

@@ -8,7 +8,8 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Update your room post</legend>
-                {{ form|crispy }}
+                {{ room_form|crispy }}
+                {{ address_form|crispy }}
             </fieldset>
 
             {% if room.has_only_default == False %}
@@ -29,7 +30,7 @@
             <div class="form-group">
                 <label>Upload more images</label>
                 <input type="hidden" id="del_imgs" name="del_imgs" value="">
-                <input id="input_imgs" name="images" type="file" multiple class="form-control-file" accept="image/jpeg, image/png, image/jpg"> <br> 
+                <input id="input_imgs" name="images" type="file" multiple class="form-control-file" accept="image/jpeg, image/png, image/jpg"> <br>
                 <output class="img-select" id="output_imgs"></output>
             </div>
 

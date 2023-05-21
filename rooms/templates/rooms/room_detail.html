@@ -84,8 +84,12 @@
     </div>
 
     <hr>
-    <h4 class="text-muted">Contact</h4>        
-    <i class="fa-solid fa-user" style="width:30px""></i>
+    <h4 class="text-muted">Location</h4>
+    {{ map|safe }}
+
+    <hr>
+    <h4 class="text-muted">Contact</h4>
+    <i class="fa-solid fa-user" style="width:30px"></i>
         <a href="{% url 'user-profile' object.author.id %}">{{ object.author.username }}</a><br>
     <i class="fa fa-phone" style="width:30px"></i>
         <a href="tel:{{ object.author.profile.phone_number }}">{{ object.author.profile.phone_number }}</a><br>

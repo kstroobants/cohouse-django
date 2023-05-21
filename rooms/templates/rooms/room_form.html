@@ -8,11 +8,12 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Create your room post</legend>
-                {{ form|crispy }}
+                {{ room_form|crispy }}
+                {{ address_form|crispy }}
             </fieldset>
             <div class="form-group">
                 <label>Upload images</label>
-                <input id="input_imgs" name="images" type="file" multiple class="form-control-file" accept="image/jpeg, image/png, image/jpg"> <br> 
+                <input id="input_imgs" name="images" type="file" multiple class="form-control-file" accept="image/jpeg, image/png, image/jpg"> <br>
                 <output class="img-select" id="output_imgs"></output>
             </div>
             <div class="form-group">
