@@ -36,6 +36,17 @@ class RoomListView(LoginRequiredMixin, ListView):
         context['form'] = self.form
         context['location_form'] = LocationForm(self.request.GET)
         context['view_class'] = 'all'
+
+        if self.map_view:
+            object_list = context['object_list']
+            m = folium.Map(location=[0,0], zoom_start=2)
+            for object in object_list:
+                marker = folium.Marker(object.roomaddress.point.coords,
+                                    popup=f"<a href={reverse('room-detail', kwargs={'pk': object.pk})} target='_parent'>Info</a>")
+                marker.add_to(m)
+            context['map'] = m._repr_html_()
+        context['map_view'] = self.map_view
+
         return context
 
     def get_queryset(self):
@@ -53,6 +64,15 @@ class RoomListView(LoginRequiredMixin, ListView):
                     qs_new = qs_new.filter(roomaddress__point__distance_lte=(city_point, D(km=radius)))
                 else:
                     messages.error(self.request, 'City in search not found!')
+
+        self.map_view = False
+        if 'map_view' in self.request.GET:
+            status = self.request.GET.get("map_view")
+            if status == "mapview":
+                self.paginate_by = 0
+                self.map_view = True
+            elif status == "listview":
+                self.paginate_by = 12
 
         return qs_new
 

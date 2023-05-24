@@ -58,7 +58,13 @@
             </div>
 
             <div class="col mt-2 mr-2">
-                <button class="btn btn-outline-light mb-1" style="width:100px;" type="submit">Search</button>
+                {% if map_view %}
+                    <button class="btn btn-outline-light mb-1" name="map_view" value="mapview" style="width:100px;" type="submit">Search</button>
+                    <button class="btn btn-outline-light mb-1" name="map_view" value="listview" style="width:100px">List View</button>
+                {% else %}
+                    <button class="btn btn-outline-light mb-1" name="map_view" value="listview" style="width:100px;" type="submit">Search</button>
+                    <button class="btn btn-outline-light mb-1" name="map_view" value="mapview" style="width:100px">Map View</button>
+                {% endif %}
                 {% if view_class == 'all' %}
                     <a href="{% url 'room-list' %}" class="btn btn-outline-light mb-1" style="width:100px">Reset</a>
                 {% elif view_class == 'my' %}
@@ -71,6 +77,13 @@
     </form>
 
     <hr>
+
+    {% if map_view %}
+
+    <div class="row">
+        {{ map|safe }}
+    </div>
+    {% else %}
 
     <div class="row">
         {% for object in object_list %}
@@ -257,6 +270,8 @@
             {% endif %}
         </div>
     </div>
+    {% endif %}
+
 </div>
 
 {% endblock content %}
