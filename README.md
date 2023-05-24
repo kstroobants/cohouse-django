@@ -30,11 +30,11 @@ The code I have developed can be used by a wide range of individuals and organiz
 - HTML
 - CSS / Bootstrap
 
-<!-- ## Demo
-Insert gif or link to demo
+## Demo
+Search rooms lying in a radius around a point (=e.g. Paris):
+![cohouse_demo_distance_search](https://github.com/kstroobants/cohouse-django/assets/130580298/c2916b78-a38b-4295-9af7-4e719c231357)
 
-## Screenshots
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here) -->
+
 
 ## Installation
 
