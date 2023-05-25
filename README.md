@@ -31,7 +31,11 @@ The code I have developed can be used by a wide range of individuals and organiz
 - CSS / Bootstrap
 
 ## Demo
-Search rooms lying in a radius around a point (=e.g. Paris):
+
+- The project is hosted on
+https://kstroobants.pythonanywhere.com/. Have fun playing around!
+
+- The deployed project does not contain the functionality to search rooms lying in a radius around a point (=e.g. Paris). The feature was removed due to the lack of file storage space and sudo rights to install django gis dependent packages on pythonanywhere. Also, Postgres is not available in the free version. So, here you can see the demo of what is pushed to github.
 ![cohouse_demo_distance_search](https://github.com/kstroobants/cohouse-django/assets/130580298/c2916b78-a38b-4295-9af7-4e719c231357)
 
 
@@ -57,7 +61,8 @@ To run the App, use:
 
 ## Roadmap
 
-Add messaging app to connect tenants with room authors.
+- Messaging app to connect tenants with room authors;
+- REST API with Django REST framework
 
 ## License
 

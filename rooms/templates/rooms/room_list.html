@@ -108,7 +108,7 @@
                             {% else %}
                                 <div class="carousel-item">
                             {% endif %}
-                                    <img class="card-img-top" src="{{ object_img.image.url }}" alt="Room image {{ object_img.id }}">
+                                    <img class="card-img-top" src="{% static object_img.image.url %}" alt="Room image {{ object_img.id }}">
                                 </div>
                         {% endfor %}
                     </div>

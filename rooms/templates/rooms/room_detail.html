@@ -12,7 +12,7 @@
 
     <div class="scroll-container">
         {% for object_img in object.roomimage_set.all %}
-            <img src="{{ object_img.image.url }}" alt="Room image {{ object_img.id }}">
+            <img src="{% static object_img.image.url %}" alt="Room image {{ object_img.id }}">
         {% endfor %}
     </div>
 

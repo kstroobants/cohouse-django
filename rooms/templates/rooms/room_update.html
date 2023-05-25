@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
 <div class="container content-section create-room-form">
@@ -18,7 +19,7 @@
                     <div class="img-select">
                         {% for room_img in room.roomimage_set.all %}
                             <div class="image" id="{{room_img.id}}">
-                                <img src="{{ room_img.image.url }}" alt="Room image {{ room_img.id }}">
+                                <img src="{% static room_img.image.url %}" alt="Room image {{ room_img.id }}">
                                 <span onclick="deleteExistingImage('{{room_img.id}}', '{{room.roomimage_set.count}}')">&times;</span>
                             </div>
                         {% endfor %}

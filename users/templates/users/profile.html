@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
 <div class="container content-section">
     <div class="row">
         <div class="col-md-5 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-2" width="150px" src="{{ request_user.profile.image.url }}">
+                <img class="rounded-circle mt-2" width="150px" src="{% static request_user.profile.image.url %}">
                 <span class="font-weight-bold">{{ request_user.username }}</span>
                 <span class="text-black-50">{{ request_user.first_name }} {{ request_user.last_name }}</span>
                 {% if request_user == user %}
