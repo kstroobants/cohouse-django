@@ -6,13 +6,7 @@
     <h1 class="display-4" style="text-align:center;">Discover a Thriving Community and a Home That Fits You</h1>
     <p class="lead" style="text-align:center;">Welcome to a world where your neighbors become friends, where social interactions are meaningful and fulfilling, and where you can create a life that truly resonates with your values. Embrace the cohousing revolution, and let our website guide you to the perfect community that feels like home.</p>
     <p style="text-align:center;">Begin your journey today, and discover the joy of cohousing through our user-friendly and empowering website.</p>
-    {% if user.is_authenticated %}
-        <p class="lead" style="text-align:center;"><a href="{% url 'room-list' %}" class="btn btn-lg btn-secondary">Search rooms</a></p>
-    {% else %}
-        <p class="lead" style="text-align:center;"><a href="{% url 'login' %}" class="btn btn-lg btn-secondary">Learn more</a></p>
-    {% endif %}
-
-
+    <p class="lead" style="text-align:center;"><a href="{% url 'room-list' %}" class="btn btn-lg btn-secondary">Search rooms</a></p>
 
     <hr class="featurette-divider">
 

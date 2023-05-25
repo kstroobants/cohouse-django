@@ -26,7 +26,7 @@ def story(request):
     return render(request, 'story.html')
 
 
-class RoomListView(LoginRequiredMixin, ListView):
+class RoomListView(ListView):
     model = Room
     ordering = ['-date_posted']
     paginate_by = 12
@@ -76,20 +76,29 @@ class RoomListView(LoginRequiredMixin, ListView):
 
         return qs_new
 
+    def get(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated == False:
+            if len(self.request.GET) != 0:
+                return redirect('login')
+        return super().get(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
-        status = request.POST.get("favourite")
-        status_like, room_id, redirect_url = status.split(",")
-        room_obj = get_object_or_404(Room, id=room_id)
+        if request.user.is_authenticated:
+            status = request.POST.get("favourite")
+            status_like, room_id, redirect_url = status.split(",")
+            room_obj = get_object_or_404(Room, id=room_id)
 
-        if status_like == "favourite":
-            room_obj.favourite.add(request.user)
-        elif status_like == "unfavourite":
-            room_obj.favourite.remove(request.user)
+            if status_like == "favourite":
+                room_obj.favourite.add(request.user)
+            elif status_like == "unfavourite":
+                room_obj.favourite.remove(request.user)
 
-        return redirect(redirect_url)
+            return redirect(redirect_url)
+        else:
+            return redirect('login')
 
 
-class RoomUserListView(RoomListView):
+class RoomUserListView(LoginRequiredMixin, RoomListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['view_class'] = 'my'
@@ -99,7 +108,7 @@ class RoomUserListView(RoomListView):
         return super().get_queryset().filter(author=self.request.user)
 
 
-class RoomUserFavouriteListView(RoomListView):
+class RoomUserFavouriteListView(LoginRequiredMixin, RoomListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['view_class'] = 'favourite'
